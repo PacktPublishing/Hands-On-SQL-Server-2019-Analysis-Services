@@ -1,0 +1,21 @@
+--- Select Black and Blue Items
+
+SELECT {[Measures].[Black Items], [Measures].[Blue Items]} on 0
+, [Delivery Date].[Calendar].[Calendar Year].members on 1
+FROM [Wide World Importers]
+
+
+-------------------
+select {[Black Items]} on 0
+,{[City].[Geography].[City].&[114952]
+, [City].[Geography].[City].&[114952].parent
+, [City].[Geography].[City].&[114952].parent.parent
+, [City].[Geography].[City].&[114952].parent.parent.parent}  on 1
+FROM [Wide World Importers];
+
+------------------
+select [Black Items] on 0
+, NON EMPTY [City].[Geography].&[Alabama].children on 1
+from [Wide World Importers];
+
+------------------

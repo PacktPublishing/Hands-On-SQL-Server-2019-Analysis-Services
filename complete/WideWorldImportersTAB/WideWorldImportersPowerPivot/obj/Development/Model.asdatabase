@@ -1,0 +1,633 @@
+{
+  "name": "WideWorldImportersPowerPivot",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "name": "WideWorldImportersDW",
+        "connectionString": "Provider=SQLNCLI11;Data Source=STEVEH-YOGA\\DOWSQL2019;Initial Catalog=WideWorldImportersDW;Integrated Security=SSPI;Persist Security Info=false",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "City",
+        "columns": [
+          {
+            "name": "City Key",
+            "dataType": "int64",
+            "sourceColumn": "City Key"
+          },
+          {
+            "name": "WWI City ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI City ID"
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City"
+          },
+          {
+            "name": "State Province",
+            "dataType": "string",
+            "sourceColumn": "State Province",
+            "dataCategory": "StateOrProvince",
+            "annotations": [
+              {
+                "name": "CategorySetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "SuggestedCategory",
+                "value": "StateOrProvince"
+              }
+            ]
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country"
+          },
+          {
+            "name": "Continent",
+            "dataType": "string",
+            "sourceColumn": "Continent"
+          },
+          {
+            "name": "Sales Territory",
+            "dataType": "string",
+            "sourceColumn": "Sales Territory"
+          },
+          {
+            "name": "Region",
+            "dataType": "string",
+            "sourceColumn": "Region"
+          },
+          {
+            "name": "Subregion",
+            "dataType": "string",
+            "sourceColumn": "Subregion"
+          },
+          {
+            "name": "Location",
+            "dataType": "string",
+            "sourceColumn": "Location"
+          },
+          {
+            "name": "Latest Recorded Population",
+            "dataType": "int64",
+            "sourceColumn": "Latest Recorded Population"
+          },
+          {
+            "type": "calculated",
+            "name": "City and State",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "City[City] & \",  \" & City[State Province]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "City",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[City].*   FROM [Cube].[City]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      },
+      {
+        "name": "Customer",
+        "columns": [
+          {
+            "name": "Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Customer Key"
+          },
+          {
+            "name": "WWI Customer ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Customer ID"
+          },
+          {
+            "name": "Customer",
+            "dataType": "string",
+            "sourceColumn": "Customer"
+          },
+          {
+            "name": "Bill To Customer",
+            "dataType": "string",
+            "sourceColumn": "Bill To Customer"
+          },
+          {
+            "name": "Category",
+            "dataType": "string",
+            "sourceColumn": "Category"
+          },
+          {
+            "name": "Buying Group",
+            "dataType": "string",
+            "sourceColumn": "Buying Group"
+          },
+          {
+            "name": "Primary Contact",
+            "dataType": "string",
+            "sourceColumn": "Primary Contact"
+          },
+          {
+            "name": "Postal Code",
+            "dataType": "string",
+            "sourceColumn": "Postal Code",
+            "dataCategory": "PostalCode",
+            "annotations": [
+              {
+                "name": "CategorySetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "SuggestedCategory",
+                "value": "PostalCode"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Customer",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[Customer].*   FROM [Cube].[Customer]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      },
+      {
+        "name": "Date",
+        "columns": [
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date",
+            "formatString": "General Date"
+          },
+          {
+            "name": "Day Number",
+            "dataType": "int64",
+            "sourceColumn": "Day Number"
+          },
+          {
+            "name": "Day",
+            "dataType": "string",
+            "sourceColumn": "Day"
+          },
+          {
+            "name": "Month",
+            "dataType": "string",
+            "sourceColumn": "Month"
+          },
+          {
+            "name": "Short Month",
+            "dataType": "string",
+            "sourceColumn": "Short Month"
+          },
+          {
+            "name": "Calendar Month Number",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Month Number"
+          },
+          {
+            "name": "Calendar Month Label",
+            "dataType": "string",
+            "sourceColumn": "Calendar Month Label"
+          },
+          {
+            "name": "Calendar Year",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Year"
+          },
+          {
+            "name": "Calendar Year Label",
+            "dataType": "string",
+            "sourceColumn": "Calendar Year Label"
+          },
+          {
+            "name": "Fiscal Month Number",
+            "dataType": "int64",
+            "sourceColumn": "Fiscal Month Number"
+          },
+          {
+            "name": "Fiscal Month Label",
+            "dataType": "string",
+            "sourceColumn": "Fiscal Month Label"
+          },
+          {
+            "name": "Fiscal Year",
+            "dataType": "int64",
+            "sourceColumn": "Fiscal Year"
+          },
+          {
+            "name": "Fiscal Year Label",
+            "dataType": "string",
+            "sourceColumn": "Fiscal Year Label"
+          },
+          {
+            "name": "ISO Week Number",
+            "dataType": "int64",
+            "sourceColumn": "ISO Week Number"
+          },
+          {
+            "name": "Today",
+            "dataType": "int64",
+            "sourceColumn": "Today"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Date",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[Date].*   FROM [Cube].[Date]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      },
+      {
+        "name": "Invoice",
+        "columns": [
+          {
+            "name": "WWI Invoice ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Invoice ID",
+            "dataCategory": "PostalCode",
+            "annotations": [
+              {
+                "name": "CategorySetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "SuggestedCategory",
+                "value": "PostalCode"
+              }
+            ]
+          },
+          {
+            "name": "Invoice Date Key",
+            "dataType": "dateTime",
+            "sourceColumn": "Invoice Date Key",
+            "formatString": "General Date"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Invoice",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[Invoice].*   FROM [Cube].[Invoice]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      },
+      {
+        "name": "Invoice Sales",
+        "columns": [
+          {
+            "name": "WWI Invoice ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Invoice ID",
+            "dataCategory": "PostalCode",
+            "annotations": [
+              {
+                "name": "CategorySetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "SuggestedCategory",
+                "value": "PostalCode"
+              }
+            ]
+          },
+          {
+            "name": "City Key",
+            "dataType": "int64",
+            "sourceColumn": "City Key"
+          },
+          {
+            "name": "WWI City ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI City ID"
+          },
+          {
+            "name": "Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Customer Key"
+          },
+          {
+            "name": "WWI Customer ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Customer ID"
+          },
+          {
+            "name": "Bill To Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Bill To Customer Key"
+          },
+          {
+            "name": "WWI Bill To Customer ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Bill To Customer ID"
+          },
+          {
+            "name": "Invoice Date Key",
+            "dataType": "dateTime",
+            "sourceColumn": "Invoice Date Key",
+            "formatString": "General Date"
+          },
+          {
+            "name": "Salesperson Key",
+            "dataType": "int64",
+            "sourceColumn": "Salesperson Key"
+          },
+          {
+            "name": "WWI Employee ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Employee ID"
+          },
+          {
+            "name": "Invoice Total Excluding Tax",
+            "dataType": "double",
+            "sourceColumn": "Invoice Total Excluding Tax"
+          },
+          {
+            "name": "Invoice Tax Amount",
+            "dataType": "double",
+            "sourceColumn": "Invoice Tax Amount"
+          },
+          {
+            "name": "Invoice Profit",
+            "dataType": "double",
+            "sourceColumn": "Invoice Profit"
+          },
+          {
+            "name": "Invoice Total Including Tax",
+            "dataType": "double",
+            "sourceColumn": "Invoice Total Including Tax"
+          },
+          {
+            "name": "Invoice Total Dry Items",
+            "dataType": "int64",
+            "sourceColumn": "Invoice Total Dry Items"
+          },
+          {
+            "name": "Invoice Total Chiller Items",
+            "dataType": "int64",
+            "sourceColumn": "Invoice Total Chiller Items"
+          },
+          {
+            "name": "Invoice Count",
+            "dataType": "int64",
+            "sourceColumn": "Invoice Count"
+          },
+          {
+            "name": "Sales Count",
+            "dataType": "int64",
+            "sourceColumn": "Sales Count"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Invoice Sales",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[Invoice Sales].*   FROM [Cube].[Invoice Sales]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "name": "Invoice Total",
+            "expression": "sum('Invoice Sales'[Invoice Total Including Tax])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Invoice Average",
+            "expression": "AVERAGE('Invoice Sales'[Invoice Total Including Tax])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      },
+      {
+        "name": "Salesperson",
+        "columns": [
+          {
+            "name": "Employee Key",
+            "dataType": "int64",
+            "sourceColumn": "Employee Key"
+          },
+          {
+            "name": "WWI Employee ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Employee ID"
+          },
+          {
+            "name": "Employee",
+            "dataType": "string",
+            "sourceColumn": "Employee"
+          },
+          {
+            "name": "Preferred Name",
+            "dataType": "string",
+            "sourceColumn": "Preferred Name"
+          },
+          {
+            "name": "Last Name",
+            "dataType": "string",
+            "sourceColumn": "Last Name"
+          },
+          {
+            "name": "First Name",
+            "dataType": "string",
+            "sourceColumn": "First Name"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From",
+            "formatString": "General Date"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To",
+            "formatString": "General Date"
+          },
+          {
+            "name": "Current",
+            "dataType": "int64",
+            "sourceColumn": "Current"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Salesperson",
+            "source": {
+              "type": "query",
+              "query": "SELECT [Cube].[Salesperson].*   FROM [Cube].[Salesperson]",
+              "dataSource": "WideWorldImportersDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization"
+              },
+              {
+                "name": "TableWidgetSerialization"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "Cube"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "eec28c80-f180-4e4f-958a-2b40a08c534c",
+        "fromTable": "Invoice",
+        "fromColumn": "WWI Invoice ID",
+        "toTable": "Invoice Sales",
+        "toColumn": "WWI Invoice ID"
+      },
+      {
+        "name": "c8b731c8-22ed-4c1c-9bf9-81c4de0468d3",
+        "fromTable": "Invoice Sales",
+        "fromColumn": "City Key",
+        "toTable": "City",
+        "toColumn": "City Key"
+      },
+      {
+        "name": "9460ccb9-6c6e-403b-97e2-61e4fea89e2e",
+        "fromTable": "Invoice Sales",
+        "fromColumn": "Customer Key",
+        "toTable": "Customer",
+        "toColumn": "Customer Key"
+      },
+      {
+        "name": "64f9cab2-d1ac-4524-ad03-7e4003c9c5bf",
+        "fromTable": "Invoice Sales",
+        "fromColumn": "Invoice Date Key",
+        "toTable": "Date",
+        "toColumn": "Date"
+      },
+      {
+        "name": "0a99c3f5-80f5-4ed6-8e85-ca316d283a8a",
+        "fromTable": "Invoice Sales",
+        "fromColumn": "Salesperson Key",
+        "toTable": "Salesperson",
+        "toColumn": "Employee Key"
+      }
+    ]
+  }
+}

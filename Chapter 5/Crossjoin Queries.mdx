@@ -1,0 +1,12 @@
+--- CROSSJOIN QUERY
+SELECT CROSSJOIN([Customer].[Customer Hierarchy].[Customer].members, [Measures].[Quantity]) on 0
+, [Delivery Date].[Calendar].[Calendar Year].&[CY2015].children on 1
+FROM [Wide World Importers]
+WHERE [Item].[Color].&[Red]
+
+--- NONEMPTY CROSSJOIN
+SELECT NON EMPTY CROSSJOIN([Customer].[Customer Hierarchy].[Customer].members, [Measures].[Quantity]) on 0
+,[Delivery Date].[Calendar].[Calendar Year].&[CY2015].children on 1 
+FROM [Wide World Importers]
+WHERE [Item].[Color].&[Red]
+

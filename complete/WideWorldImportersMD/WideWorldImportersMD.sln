@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "WideWorldImportersMD", "WideWorldImportersMD\WideWorldImportersMD.dwproj", "{00606F95-EC7C-47C2-825F-95C07F3BD3CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00606F95-EC7C-47C2-825F-95C07F3BD3CD}.Development|Default.ActiveCfg = Development
+		{00606F95-EC7C-47C2-825F-95C07F3BD3CD}.Development|Default.Build.0 = Development
+		{00606F95-EC7C-47C2-825F-95C07F3BD3CD}.Development|Default.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A057E94A-1BF8-4BBB-8899-C589955A2450}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,216 @@
+{
+  "name": "WideWorldImportersPQ",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImporters",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "STEVEH-YOGA\\DOWSQL2019",
+            "database": "WideWorldImporters"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "credential": {
+          "AuthenticationKind": "ServiceAccount",
+          "kind": "SQL",
+          "path": "steveh-yoga\\dowsql2019;WideWorldImporters",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Customers",
+        "columns": [
+          {
+            "name": "CustomerID",
+            "dataType": "int64",
+            "sourceColumn": "CustomerID"
+          },
+          {
+            "name": "Customer Name",
+            "dataType": "string",
+            "sourceColumn": "Customer Name"
+          },
+          {
+            "name": "CustomerCategoryID",
+            "dataType": "int64",
+            "sourceColumn": "CustomerCategoryID"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImporters\",",
+                "    Sales_Customers = Source{[Schema=\"Sales\",Item=\"Customers\"]}[Data],",
+                "    #\"Removed Other Columns\" = Table.SelectColumns(Sales_Customers,{\"CustomerID\", \"CustomerName\", \"CustomerCategoryID\"}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Other Columns\",{{\"CustomerName\", \"Customer Name\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Customer Transactions",
+        "columns": [
+          {
+            "name": "CustomerTransactionID",
+            "dataType": "int64",
+            "sourceColumn": "CustomerTransactionID"
+          },
+          {
+            "name": "CustomerID",
+            "dataType": "int64",
+            "sourceColumn": "CustomerID"
+          },
+          {
+            "name": "TransactionTypeID",
+            "dataType": "int64",
+            "sourceColumn": "TransactionTypeID"
+          },
+          {
+            "name": "InvoiceID",
+            "dataType": "int64",
+            "sourceColumn": "InvoiceID"
+          },
+          {
+            "name": "Transaction Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Transaction Date"
+          },
+          {
+            "name": "Transaction Amount",
+            "dataType": "double",
+            "sourceColumn": "Transaction Amount"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImporters\",",
+                "    Sales_CustomerTransactions = Source{[Schema=\"Sales\",Item=\"CustomerTransactions\"]}[Data],",
+                "    #\"Removed Other Columns\" = Table.SelectColumns(Sales_CustomerTransactions,{\"CustomerTransactionID\", \"CustomerID\", \"TransactionTypeID\", \"InvoiceID\", \"TransactionDate\", \"TransactionAmount\"}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Other Columns\",{{\"TransactionDate\", \"Transaction Date\"}, {\"TransactionAmount\", \"Transaction Amount\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Transaction Types",
+        "columns": [
+          {
+            "name": "TransactionTypeID",
+            "dataType": "int64",
+            "sourceColumn": "TransactionTypeID"
+          },
+          {
+            "name": "Transaction Type",
+            "dataType": "string",
+            "sourceColumn": "Transaction Type"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImporters\",",
+                "    Application_TransactionTypes = Source{[Schema=\"Application\",Item=\"TransactionTypes\"]}[Data],",
+                "    #\"Removed Other Columns\" = Table.SelectColumns(Application_TransactionTypes,{\"TransactionTypeID\", \"TransactionTypeName\"}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Other Columns\",{{\"TransactionTypeName\", \"Transaction Type\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Customer Categories",
+        "columns": [
+          {
+            "name": "CustomerCategoryID",
+            "dataType": "int64",
+            "sourceColumn": "CustomerCategoryID"
+          },
+          {
+            "name": "Customer Category",
+            "dataType": "string",
+            "sourceColumn": "Customer Category"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImporters\",",
+                "    Sales_CustomerCategories = Source{[Schema=\"Sales\",Item=\"CustomerCategories\"]}[Data],",
+                "    #\"Removed Other Columns\" = Table.SelectColumns(Sales_CustomerCategories,{\"CustomerCategoryID\", \"CustomerCategoryName\"}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Other Columns\",{{\"CustomerCategoryName\", \"Customer Category\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "096e7b52-80ac-42d1-bb68-2b27533e79a2",
+        "fromTable": "Customers",
+        "fromColumn": "CustomerCategoryID",
+        "toTable": "Customer Categories",
+        "toColumn": "CustomerCategoryID"
+      },
+      {
+        "name": "475d48bd-ca0a-4681-8935-ea5bdb67268b",
+        "fromTable": "Customer Transactions",
+        "fromColumn": "CustomerID",
+        "toTable": "Customers",
+        "toColumn": "CustomerID"
+      },
+      {
+        "name": "def288b8-e02c-46db-ab05-e063773290af",
+        "fromTable": "Customer Transactions",
+        "fromColumn": "TransactionTypeID",
+        "toTable": "Transaction Types",
+        "toColumn": "TransactionTypeID"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  }
+}

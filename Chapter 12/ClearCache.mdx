@@ -1,0 +1,16 @@
+
+// clear caches
+<Batch xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ClearCache>
+    <Object>
+      <DatabaseID>Adventure Works DW 2008R2 SE</DatabaseID>   
+    </Object>
+  </ClearCache>
+</Batch>
+
+//Clear File System Cache (ASSP stored procedure)
+call assp.ClearFileSystemCache()
+
+// ititialize the calc script
+SELECT {} on 0
+FROM [Adventure Works]

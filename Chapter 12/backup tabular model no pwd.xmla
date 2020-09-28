@@ -1,0 +1,8 @@
+{
+  "backup": {
+    "database": "WideWorldImportersTAB",
+    "file": "WideWorldImportersTAB.abf",
+    "allowOverwrite": false,
+    "applyCompression": true
+  }
+}

@@ -1,0 +1,777 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1500,
+  "model": {
+    "defaultMode": "directQuery",
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "STEVEH-YOGA\\DOWSQL2019",
+            "database": "WideWorldImportersDW"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "ServiceAccount",
+          "kind": "SQL",
+          "path": "steveh-yoga\\dowsql2019;WideWorldImportersDW",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Sales",
+        "columns": [
+          {
+            "name": "Sale Key",
+            "dataType": "int64",
+            "sourceColumn": "Sale Key"
+          },
+          {
+            "name": "City Key",
+            "dataType": "int64",
+            "sourceColumn": "City Key"
+          },
+          {
+            "name": "Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Customer Key"
+          },
+          {
+            "name": "Bill To Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Bill To Customer Key"
+          },
+          {
+            "name": "Stock Item Key",
+            "dataType": "int64",
+            "sourceColumn": "Stock Item Key"
+          },
+          {
+            "name": "Invoice Date Key",
+            "dataType": "dateTime",
+            "sourceColumn": "Invoice Date Key"
+          },
+          {
+            "name": "Delivery Date Key",
+            "dataType": "dateTime",
+            "sourceColumn": "Delivery Date Key"
+          },
+          {
+            "name": "Salesperson Key",
+            "dataType": "int64",
+            "sourceColumn": "Salesperson Key"
+          },
+          {
+            "name": "WWI Invoice ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Invoice ID"
+          },
+          {
+            "name": "Description",
+            "dataType": "string",
+            "sourceColumn": "Description"
+          },
+          {
+            "name": "Package",
+            "dataType": "string",
+            "sourceColumn": "Package"
+          },
+          {
+            "name": "Quantity",
+            "dataType": "int64",
+            "sourceColumn": "Quantity"
+          },
+          {
+            "name": "Unit Price",
+            "dataType": "double",
+            "sourceColumn": "Unit Price"
+          },
+          {
+            "name": "Tax Rate",
+            "dataType": "double",
+            "sourceColumn": "Tax Rate"
+          },
+          {
+            "name": "Total Excluding Tax",
+            "dataType": "double",
+            "sourceColumn": "Total Excluding Tax"
+          },
+          {
+            "name": "Tax Amount",
+            "dataType": "double",
+            "sourceColumn": "Tax Amount"
+          },
+          {
+            "name": "Profit",
+            "dataType": "double",
+            "sourceColumn": "Profit"
+          },
+          {
+            "name": "Total Including Tax",
+            "dataType": "double",
+            "sourceColumn": "Total Including Tax"
+          },
+          {
+            "name": "Total Dry Items",
+            "dataType": "int64",
+            "sourceColumn": "Total Dry Items"
+          },
+          {
+            "name": "Total Chiller Items",
+            "dataType": "int64",
+            "sourceColumn": "Total Chiller Items"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data]",
+                "in",
+                "    Fact_Sale"
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1) and [Invoice Date Key] <= #date(2015, 12, 31))",
+                "in",
+                "    #\"Filtered Rows\""
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1) and [Invoice Date Key] <= #date(2015, 12, 31))",
+                  "in",
+                  "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Profit",
+            "expression": "SUM([Profit])"
+          }
+        ]
+      },
+      {
+        "name": "City",
+        "columns": [
+          {
+            "name": "City Key",
+            "dataType": "int64",
+            "sourceColumn": "City Key"
+          },
+          {
+            "name": "WWI City ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI City ID"
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City"
+          },
+          {
+            "name": "State Province",
+            "dataType": "string",
+            "sourceColumn": "State Province"
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country"
+          },
+          {
+            "name": "Continent",
+            "dataType": "string",
+            "sourceColumn": "Continent"
+          },
+          {
+            "name": "Sales Territory",
+            "dataType": "string",
+            "sourceColumn": "Sales Territory"
+          },
+          {
+            "name": "Region",
+            "dataType": "string",
+            "sourceColumn": "Region"
+          },
+          {
+            "name": "Subregion",
+            "dataType": "string",
+            "sourceColumn": "Subregion"
+          },
+          {
+            "name": "Location",
+            "dataType": "string",
+            "sourceColumn": "Location"
+          },
+          {
+            "name": "Latest Recorded Population",
+            "dataType": "int64",
+            "sourceColumn": "Latest Recorded Population"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          },
+          {
+            "type": "calculated",
+            "name": "City and State",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[City] & \", \" & [State Province] "
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_City = Source{[Schema=\"Dimension\",Item=\"City\"]}[Data]",
+                "in",
+                "    Dimension_City"
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_City = Source{[Schema=\"Dimension\",Item=\"City\"]}[Data]",
+                "in",
+                "    Dimension_City"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    Dimension_City = Source{[Schema=\"Dimension\",Item=\"City\"]}[Data]",
+                  "in",
+                  "    Dimension_City</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Customer",
+        "columns": [
+          {
+            "name": "Customer Key",
+            "dataType": "int64",
+            "sourceColumn": "Customer Key"
+          },
+          {
+            "name": "WWI Customer ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Customer ID"
+          },
+          {
+            "name": "Customer",
+            "dataType": "string",
+            "sourceColumn": "Customer"
+          },
+          {
+            "name": "Bill To Customer",
+            "dataType": "string",
+            "sourceColumn": "Bill To Customer"
+          },
+          {
+            "name": "Category",
+            "dataType": "string",
+            "sourceColumn": "Category"
+          },
+          {
+            "name": "Buying Group",
+            "dataType": "string",
+            "sourceColumn": "Buying Group"
+          },
+          {
+            "name": "Primary Contact",
+            "dataType": "string",
+            "sourceColumn": "Primary Contact"
+          },
+          {
+            "name": "Postal Code",
+            "dataType": "string",
+            "sourceColumn": "Postal Code"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Customer = Source{[Schema=\"Dimension\",Item=\"Customer\"]}[Data]",
+                "in",
+                "    Dimension_Customer"
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Customer = Source{[Schema=\"Dimension\",Item=\"Customer\"]}[Data]",
+                "in",
+                "    Dimension_Customer"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    Dimension_Customer = Source{[Schema=\"Dimension\",Item=\"Customer\"]}[Data]",
+                  "in",
+                  "    Dimension_Customer</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Date",
+        "columns": [
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date"
+          },
+          {
+            "name": "Day Number",
+            "dataType": "int64",
+            "sourceColumn": "Day Number"
+          },
+          {
+            "name": "Day",
+            "dataType": "string",
+            "sourceColumn": "Day"
+          },
+          {
+            "name": "Month",
+            "dataType": "string",
+            "sourceColumn": "Month"
+          },
+          {
+            "name": "Short Month",
+            "dataType": "string",
+            "sourceColumn": "Short Month"
+          },
+          {
+            "name": "Calendar Month Number",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Month Number"
+          },
+          {
+            "name": "Calendar Month Label",
+            "dataType": "string",
+            "sourceColumn": "Calendar Month Label"
+          },
+          {
+            "name": "Calendar Year",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Year"
+          },
+          {
+            "name": "Calendar Year Label",
+            "dataType": "string",
+            "sourceColumn": "Calendar Year Label"
+          },
+          {
+            "name": "Fiscal Month Number",
+            "dataType": "int64",
+            "sourceColumn": "Fiscal Month Number"
+          },
+          {
+            "name": "Fiscal Month Label",
+            "dataType": "string",
+            "sourceColumn": "Fiscal Month Label"
+          },
+          {
+            "name": "Fiscal Year",
+            "dataType": "int64",
+            "sourceColumn": "Fiscal Year"
+          },
+          {
+            "name": "Fiscal Year Label",
+            "dataType": "string",
+            "sourceColumn": "Fiscal Year Label"
+          },
+          {
+            "name": "ISO Week Number",
+            "dataType": "int64",
+            "sourceColumn": "ISO Week Number"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Date = Source{[Schema=\"Dimension\",Item=\"Date\"]}[Data]",
+                "in",
+                "    Dimension_Date"
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Date = Source{[Schema=\"Dimension\",Item=\"Date\"]}[Data]",
+                "in",
+                "    Dimension_Date"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    Dimension_Date = Source{[Schema=\"Dimension\",Item=\"Date\"]}[Data]",
+                  "in",
+                  "    Dimension_Date</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "Employee Key",
+            "dataType": "int64",
+            "sourceColumn": "Employee Key"
+          },
+          {
+            "name": "WWI Employee ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Employee ID"
+          },
+          {
+            "name": "Employee",
+            "dataType": "string",
+            "sourceColumn": "Employee"
+          },
+          {
+            "name": "Preferred Name",
+            "dataType": "string",
+            "sourceColumn": "Preferred Name"
+          },
+          {
+            "name": "Is Salesperson",
+            "dataType": "boolean",
+            "sourceColumn": "Is Salesperson"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Employee = Source{[Schema=\"Dimension\",Item=\"Employee\"]}[Data]",
+                "in",
+                "    Dimension_Employee"
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    Dimension_Employee = Source{[Schema=\"Dimension\",Item=\"Employee\"]}[Data]",
+                "in",
+                "    Dimension_Employee"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    Dimension_Employee = Source{[Schema=\"Dimension\",Item=\"Employee\"]}[Data]",
+                  "in",
+                  "    Dimension_Employee</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Stock Item",
+        "columns": [
+          {
+            "name": "Stock Item Key",
+            "dataType": "int64",
+            "sourceColumn": "Stock Item Key"
+          },
+          {
+            "name": "WWI Stock Item ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Stock Item ID"
+          },
+          {
+            "name": "Stock Item",
+            "dataType": "string",
+            "sourceColumn": "Stock Item"
+          },
+          {
+            "name": "Color",
+            "dataType": "string",
+            "sourceColumn": "Color"
+          },
+          {
+            "name": "Selling Package",
+            "dataType": "string",
+            "sourceColumn": "Selling Package"
+          },
+          {
+            "name": "Buying Package",
+            "dataType": "string",
+            "sourceColumn": "Buying Package"
+          },
+          {
+            "name": "Brand",
+            "dataType": "string",
+            "sourceColumn": "Brand"
+          },
+          {
+            "name": "Size",
+            "dataType": "string",
+            "sourceColumn": "Size"
+          },
+          {
+            "name": "Lead Time Days",
+            "dataType": "int64",
+            "sourceColumn": "Lead Time Days"
+          },
+          {
+            "name": "Quantity Per Outer",
+            "dataType": "int64",
+            "sourceColumn": "Quantity Per Outer"
+          },
+          {
+            "name": "Is Chiller Stock",
+            "dataType": "boolean",
+            "sourceColumn": "Is Chiller Stock"
+          },
+          {
+            "name": "Barcode",
+            "dataType": "string",
+            "sourceColumn": "Barcode"
+          },
+          {
+            "name": "Tax Rate",
+            "dataType": "double",
+            "sourceColumn": "Tax Rate"
+          },
+          {
+            "name": "Unit Price",
+            "dataType": "double",
+            "sourceColumn": "Unit Price"
+          },
+          {
+            "name": "Recommended Retail Price",
+            "dataType": "double",
+            "sourceColumn": "Recommended Retail Price"
+          },
+          {
+            "name": "Typical Weight Per Unit",
+            "dataType": "double",
+            "sourceColumn": "Typical Weight Per Unit"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    #\"Dimension_Stock Item\" = Source{[Schema=\"Dimension\",Item=\"Stock Item\"]}[Data]",
+                "in",
+                "    #\"Dimension_Stock Item\""
+              ]
+            }
+          },
+          {
+            "name": "Partition - Copy",
+            "mode": "import",
+            "dataView": "sample",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                "    #\"Dimension_Stock Item\" = Source{[Schema=\"Dimension\",Item=\"Stock Item\"]}[Data]",
+                "in",
+                "    #\"Dimension_Stock Item\""
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/STEVEH-YOGA\\DOWSQL2019;WideWorldImportersDW\",",
+                  "    #\"Dimension_Stock Item\" = Source{[Schema=\"Dimension\",Item=\"Stock Item\"]}[Data]",
+                  "in",
+                  "    #\"Dimension_Stock Item\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}

@@ -1,0 +1,31 @@
+
+with 
+
+member [Measures].[Red Current FY] as (ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]), [Measures].[Red Items])
+member [Measures].[Red Previous FY] as (ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]).prevmember, [Measures].[Red Items])
+
+member [Measures].[Red YOY Difference] as 
+	IIF(ISEMPTY([Measures].[Red Previous FY]), 0, 
+		IIF(ISEMPTY([Measures].[Red Current FY]), null,
+			[Measures].[Red Current FY] - [Measures].[Red Previous FY]))
+
+member [Measures].[Red YOY Growth] as [Measures].[Red YOY Difference] / [Measures].[Red Previous FY]
+
+member [Measures].[Red YOY Target] as [Measures].[Red Previous FY] * 1.1
+
+member [Measures].[Red Status] as IIF((ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]), [Measures].[Red Items]) < ((ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]).prevmember, [Measures].[Red Items]) * 1.05), -1, IIF((ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]), [Measures].[Red Items]) > ((ANCESTOR([Invoice Date].[Fiscal].currentmember, [Invoice Date].[Fiscal].[Fiscal Year]).prevmember, [Measures].[Red Items]) * 1.1), 1, 0))
+
+
+select {[Measures].[Red Items]
+, [Measures].[Red Current FY]
+, [Measures].[Red Previous FY]
+, [Measures].[Red YOY Difference]
+, [Measures].[Red YOY Growth]
+, [Measures].[Red YOY Target]
+, [Measures].[Red Status]
+} on 0
+
+, [Invoice Date].[Fiscal].[Fiscal Month].members on 1
+
+FROM [Wide World Importers]
+

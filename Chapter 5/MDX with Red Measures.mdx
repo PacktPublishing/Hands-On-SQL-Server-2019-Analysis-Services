@@ -1,0 +1,7 @@
+WITH MEMBER [Measures].[Red Items] as SUM([Item].[Color].&[Red],[Measures].[Quantity])
+     MEMBER [Measures].[% Red] as [Measures].[Red Items] / [Measures].[Quantity], FORMAT_STRING = 'Percent'
+	 
+SELECT {[Measures].[Red Items],[Measures].[Quantity], [Measures].[% Red]} on 0
+,[Delivery Date].[Calendar].[Calendar Year].&[CY2015].children on 1 
+FROM [Wide World Importers]
+WHERE (EXCEPT([Item].[Color].[Color].members,{[Item].[Color].&[N/A]}))

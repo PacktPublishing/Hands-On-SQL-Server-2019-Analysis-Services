@@ -1,0 +1,47 @@
+
+EVALUATE(
+	GENERATE(
+		SUMMARIZE('Customer',Customer[Buying Group]),
+		SUMMARIZE('Item', 
+			'Item'[Brand],
+			'Item'[Color],
+			"Item Brand Color Breakdown", 
+			SUMX(RELATEDTABLE(Sales), Sales[Quantity])) 
+		))
+
+-----------------------
+
+EVALUATE(
+	GENERATE(
+		SUMMARIZE('Customer',Customer[Buying Group]),
+		SUMMARIZE('Item', 
+			'Item'[Brand],
+			'Item'[Color],
+			"Item Brand Color Breakdown", 
+			SUMX(RELATEDTABLE(Sales), Sales[Quantity])) 
+		))
+ORDER BY Customer[Buying Group]
+
+------------------------------
+
+EVALUATE(
+	GENERATE(
+		SUMMARIZE('Customer',Customer[Buying Group]),
+		SUMMARIZE('Item', 'Item'[Brand],'Item'[Color],
+			"Item Brand Color Breakdown", 
+			SUMX(RELATEDTABLE(Sales), Sales[Quantity])) 
+		))
+ORDER BY Customer[Buying Group]
+START AT "Tailspin Toys"
+
+--------------------------------
+
+DEFINE
+MEASURE 'Sales'[Sales Total] = SUM('Sales'[Total Excluding Tax])
+EVALUATE(
+	SUMMARIZECOLUMNS(
+		'Date'[Calendar Year]
+		, 'Item'[Color]
+		, "Total Sales" 
+		, CALCULATE([Sales Total])
+		))

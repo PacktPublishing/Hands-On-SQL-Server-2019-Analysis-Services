@@ -1,0 +1,7 @@
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\bin\Model.asdatabase
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\bin\Model.deploymenttargets
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\bin\Model.deploymentoptions
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\obj\Development\WideWorldImportersPowerPivot.smproj.CoreCompileInputs.cache
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\obj\Development\Model.asdatabase
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\obj\Development\Model.deploymentoptions
+C:\Source\GitHub\PacktPublishing\hands-on-sql-server-2019-analysis-services\complete\WideWorldImportersTAB\WideWorldImportersPowerPivot\obj\Development\Model.deploymenttargets

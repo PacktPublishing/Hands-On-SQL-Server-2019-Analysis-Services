@@ -1,0 +1,6 @@
+SELECT {[Measures].[Profit],[Measures].[Total Excluding Tax],[Measures].[Total Including Tax]} on columns
+,[Customer].[Customer Hierarchy].[Bill To Customer].members on rows
+
+FROM [Wide World Importers]
+
+WHERE [Invoice Date].[Fiscal].[Fiscal Year].&[FY2015]

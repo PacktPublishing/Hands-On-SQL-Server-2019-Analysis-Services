@@ -1,0 +1,218 @@
+/*
+/* Hierarchy work with MDX */
+
+/* Members Example */
+
+select [City].[Geography].[Country].members on 0 from [Wide World Importers]
+;
+select [City].[Geography].members on 0 from [Wide World Importers] -- returns 116,000 columns
+;
+
+/* Parent examples */
+
+select {[Black Items]} on 0
+,{[City].[Geography].[City].&[114952]
+, [City].[Geography].[City].&[114952].parent
+, [City].[Geography].[City].&[114952].parent.parent
+, [City].[Geography].[City].&[114952].parent.parent.parent}  on 1
+FROM [Wide World Importers];
+
+/* Children Example */
+
+select [Black Items] on 0
+, NON EMPTY [City].[Geography].&[Alabama].children on 1
+from [Wide World Importers];
+
+/* Descendants examples */
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], SELF)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], BEFORE)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], AFTER)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], SELF_AND_AFTER)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], SELF_AND_BEFORE)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], BEFORE_AND_AFTER)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], SELF_BEFORE_AFTER)
+on 1
+FROM [Wide World Importers];
+
+select {[Black Items]} on 0
+, NON EMPTY descendants([City].[Sales Region].[Region].&[Americas], [City].[Sales Region].[State Province], LEAVES)
+on 1
+FROM [Wide World Importers];
+
+/* FirstChild, LastChild, FirstSibling, LastSibling */
+
+select {[Black Items]} on 0
+, NON EMPTY {[Invoice Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug]
+	,[Invoice Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug].firstchild
+	,[Invoice Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug].lastchild
+	,[Invoice Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug].firstsibling
+	,[Invoice Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug].lastsibling
+	}
+on 1
+from [Wide World Importers]
+;
+
+/* crossjoin examples */
+
+-- this query will return the December values for each year for Alabama and Georgia
+
+select [Black Items] on 0
+, crossjoin({[Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2014].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2015].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2016].lastchild}
+			 ,
+			 {[City].[Sales Region].[State Province].&[Alabama],
+			  [City].[Sales Region].[State Province].&[Georgia]}
+			)
+on 1
+from [Wide World Importers];
+
+-- illustrates how that only valid combinations are returned, not a true cartesian
+select [Measures].[Quantity] on 0
+, crossjoin({[Item].[Color].&[Yellow]
+			,[Item].[Color].&[Red]
+			}
+			 ,
+				[Item].[Size].[Size].members
+			)
+on 1
+from [Wide World Importers];
+
+/* IIF and ISEMPTY examples */
+with
+member [Measures].[No Empty Quantity] as IIF(ISEMPTY([Measures].[Quantity]),"No Sales", [Measures].[Quantity])
+
+select [Measures].[No Empty Quantity] on 0
+, crossjoin({[Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2014].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2015].lastchild, 
+			 [Invoice Date].[Calendar].[Calendar Year].&[CY2016].lastchild}
+			 ,
+			 {[City].[Sales Region].[State Province].&[Alabama],
+			  [City].[Sales Region].[State Province].&[Georgia]}
+			)
+on 1
+from [Wide World Importers];
+
+/* Using Lag and Lead */
+
+select [Black Items] on 0
+,{[Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild,
+  [Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild.lag(1), 
+  [Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild.lag(6), 
+  [Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild.lead(1), 
+  [Invoice Date].[Calendar].[Calendar Year].&[CY2013].lastchild.lead(6)}
+	on 1
+from [Wide World Importers];
+
+/* building a more complex SUM measure */
+
+WITH MEMBER [Measures].[No Territories] as 
+  SUM(
+    EXCEPT(
+	   descendants([City].[Sales Region].[Region].&[Americas], 
+				  [City].[Sales Region].[State Province], SELF)
+				  , {[City].[Sales Region].[State Province].&[Puerto Rico (US Territory)],
+				    [City].[Sales Region].[State Province].&[Virgin Islands (US Territory)]})
+     ,[Measures].[Quantity])
+
+select {[Measures].[Quantity],[Measures].[No Territories]} on 0
+from [Wide World Importers];
+
+/* count examples */
+
+with member [Measures].[State Province Count] as [City].[Sales Region].[State Province].count
+     member [Measures].[No Territories Count] as 
+	 COUNT(EXCEPT(
+	   descendants([City].[Sales Region].[Region].&[Americas], 
+				  [City].[Sales Region].[State Province], SELF)
+				  , {[City].[Sales Region].[State Province].&[Puerto Rico (US Territory)],
+				    [City].[Sales Region].[State Province].&[Virgin Islands (US Territory)]})
+				,INCLUDEEMPTY)
+select {[Measures].[State Province Count],[Measures].[No Territories Count]} on 0
+from [Wide World Importers]
+
+/* Avg, Median, Divide */
+
+with 
+member NEProfit as SUM([City].[Sales Region].[Sales Territory].&[New England].children,[Measures].[Profit])
+member NETerritoryCount as COUNT([City].[Sales Region].[Sales Territory].&[New England].children)
+member NEAvgProfit as AVG([City].[Sales Region].[Sales Territory].&[New England].children, [Measures].[Profit])
+member NEMedianProfit as MEDIAN([City].[Sales Region].[Sales Territory].&[New England].children, [Measures].[Profit])
+member NEAvgProfitCalc as DIVIDE([Measures].[NEProfit],[Measures].[NETerritoryCount])
+
+select {[Measures].[NEProfit]
+	,[Measures].[NETerritoryCount]
+	,[Measures].[NEAvgProfit]
+	,[Measures].[NEAvgProfitCalc]
+	,[Measures].[NEMedianProfit]} on 0
+from [Wide World Importers];
+
+/* PeriodsTodate, YTD, Aggergate Functions  */
+
+with 
+member [Delivery Date].[Calendar].[First7Months2015] as
+		Aggregate(
+		    PeriodsToDate(
+			    [Delivery Date].[Calendar].[Calendar Year]
+				, [Delivery Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug]))
+member [Delivery Date].[Calendar].[Aug2015YTD] as
+		Aggregate(
+			YTD([Delivery Date].[Calendar].[Calendar Month].&[8]&[CY2015-Aug]))
+
+select {([Delivery Date].[Calendar].[First7Months2015],[Measures].[Quantity])
+		,([Delivery Date].[Calendar].[Aug2015YTD],[Measures].[Quantity])}on 0
+	, [Items with Color] on 1
+
+from [Wide World Importers]
+
+/* ParallelPeriod */
+
+with 
+member [Measures].[PY Quantity]
+as ([Measures].[Quantity],parallelperiod([Invoice Date].[Calendar].[Calendar Year], 1, [Invoice Date].[Calendar].currentmember))
+	, FORMAT_STRING = '0,000'
+
+select {[Measures].[Quantity], [Measures].[PY Quantity]} on 0
+, [Invoice Date].[Calendar].&[CY2016].children on 1
+from [Wide World Importers]
+
+/* TopCount, BottomCount */
+
+*/
+
+select [Measures].[Quantity] on 0 
+, topcount([Items with Color], 5) on 1
+from [Wide World Importers]
+;
+select [Measures].[Quantity] on 0 
+, bottomcount([Items with Color], 5) on 1
+from [Wide World Importers]
+;
