@@ -1,0 +1,5 @@
+Using this workbook
+1.	Open the workbook
+2.	On the Data tab, open Existing Connections
+3.	Change the connection to connect to your data warehouse
+4.	Refresh the data

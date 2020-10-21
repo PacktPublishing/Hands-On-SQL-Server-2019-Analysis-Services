@@ -1,0 +1,7 @@
+<Restore xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <File>C:\data\MSAS15.DOWSQL2019\OLAP\Backup\WideWorldImportersMD01.abf</File>
+  <DatabaseName>WideWorldImportersMD01</DatabaseName>
+  <Security>IgnoreSecurity</Security>
+  <Password>steve</Password>
+  <DbStorageLocation xmlns="http://schemas.microsoft.com/analysisservices/2008/engine/100/100">C:\data\MSAS15.DOWSQL2019\OLAP\Data\</DbStorageLocation>
+</Restore>

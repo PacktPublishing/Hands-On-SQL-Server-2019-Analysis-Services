@@ -1,0 +1,15 @@
+{
+  "refresh": {
+    "type": "automatic",
+    "objects": [
+      {
+        "database": "WideWorldImportersTAB",
+        "table": "Customer"
+      },
+      {
+        "database": "WideWorldImportersTAB",
+        "table": "Annual Calcs"
+      }
+    ]
+  }
+}

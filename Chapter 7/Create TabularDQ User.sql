@@ -1,8 +1,0 @@
-USE [master]
-GO
-CREATE LOGIN [TabularDQ] WITH PASSWORD=N'somepassword', DEFAULT_DATABASE=[WideWorldImportersDW], DEFAULT_LANGUAGE=[us_english], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
-GO
-
-
-
-

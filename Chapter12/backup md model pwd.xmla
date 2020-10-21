@@ -1,0 +1,7 @@
+<Backup xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <Object>
+    <DatabaseID>WideWorldImportersMD</DatabaseID>
+  </Object>
+  <File>WideWorldImportersMD01.abf</File>
+  <Password>steve</Password>
+</Backup>

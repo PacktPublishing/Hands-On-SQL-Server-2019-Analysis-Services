@@ -1,0 +1,9 @@
+{
+  "backup": {
+    "database": "WideWorldImportersTAB",
+    "file": "WideWorldImportersTAB01.abf",
+    "password": "steve",
+    "allowOverwrite": false,
+    "applyCompression": true
+  }
+}

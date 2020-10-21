@@ -1,9 +1,0 @@
-DEFINE
-MEASURE 'Sales'[Sales Total] = SUM('Sales'[Total Excluding Tax])
-
-EVALUATE(
-	SUMMARIZECOLUMNS(
-	  'Customer'[Bill To Customer]
-		, "Total Sales" 
-		, CALCULATE([Sales Total])
-		))
