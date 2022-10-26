@@ -63,3 +63,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
  is the director of consulting and an enterprise architect at 3Cloud. He has worked extensively on Microsoft SQL Server Analysis Services multidimensional models throughout the years, followed by working with tabular models including Power BI and Power Pivot implementations. He is passionate about using data effectively and helping customers understand that data is valuable and profitable. He has worked in many industries, including healthcare, finance, manufacturing, transportation, and utilities. He is a Microsoft Certified Professional with multiple Microsoft Azure and Data Platform certifications.
  
  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781800204768">https://packt.link/free-ebook/9781800204768 </a> </p>
